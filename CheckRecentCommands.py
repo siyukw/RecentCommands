@@ -1,6 +1,7 @@
 from subprocess import Popen, PIPE, STDOUT
 import re
 import operator
+import sys
 
 
 def read_file(n):
@@ -38,17 +39,24 @@ def alias(list):
     :param list: the list of top most used commands
     :return: null
     '''
+    print("Here are your most frequently used commands: ")
     print(list)
+    command_to_alias = \
+        input("Which command would you like you alias? (Enter 0 if you do not wish to alias any commands)")
+    if command_to_alias == '0':
+        sys.exit(1)
+    # TODO: Implement the actual aliasing process
     return
 
 
 def main():
     num = input("How many recent commands do you want to check? (Enter a number between 1 and 500)")
-    top = input("How many most frequently used commands would you like to alias? "
+    top = input("How many commands would you like to alias? "
                 "(Must be smaller than the number entered previously)")
+    if type(num) != int or type(top) != int or int(top) > int(num):
+        print("Please make sure you follow the instruction!")
+        sys.exit(1)
     char_limit = input("What's the shortest command that you are willing to check? (Enter number of characters)")
-    # TODO: throw exception if num < top or num/top are not numbers
-    # TODO: add command length limit
     item_list = read_file(int(num))
     alias(analysis(item_list, int(char_limit))[:int(top)])
 
